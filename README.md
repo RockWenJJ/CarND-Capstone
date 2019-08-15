@@ -1,6 +1,26 @@
-This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. For more information about the project, see the project introduction [here](https://classroom.udacity.com/nanodegrees/nd013/parts/6047fe34-d93c-4f50-8336-b70ef10cb4b2/modules/e1a23b06-329a-4684-a717-ad476f0d8dff/lessons/462c933d-9f24-42d3-8bdc-a08a5fc866e4/concepts/5ab4b122-83e6-436d-850f-9f4d26627fd9).
+## CarND-Capstone Project
 
-Please use **one** of the two installation options, either native **or** docker installation.
+### 1. Overview
+
+This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree:  Programming a Real Self-Driving Car.  In this project, ROS nodes were built to implement core functions of a self-driving system, including perception (traffic light detection), planning (waypoints following) and control. All the implemented components are located in `ros/src`.
+
+### 2. Architecture
+
+![architecture](imgs/architecture.png)
+
+### 3. ROS Modules
+
+#### 3.1 tl_detector
+
+This module includes all the components needed for detecting and classifying the traffic lights. For traffic lights detection, I used a pre-trained `yolo-v3` model to detect the traffic light;  then a classifier was used to determine whether it is a red traffic light. Besides determining which kind of light it is, the location of the traffic light was also determined by finding the closest waypoint.
+
+#### 3.2 waypoint_updater
+
+In this module, waypoints from the car's current position to some distance ahead were published. In order to make the car stop automatically at the stopline before each red traffic light, locations and light types from `tl_detector` were also used.
+
+#### 3.3 twist_controller
+
+In this module, DBW node was implemented for actuator control. It subscribes to `/vehicle/twist_cmd` message which provides the proposed linear and angular velocities. It also subscribes to `/vehicle/dbw_enabled ` and `/current_velocity`.  The outputs of this module is the final control commands like `/vehicle/steering_cmd`, `/vehicle/throttle_cmd` and `/vehicle/brake_cmd`. 
 
 ### Native Installation
 
@@ -16,6 +36,7 @@ Please use **one** of the two installation options, either native **or** docker 
   * [ROS Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu) if you have Ubuntu 16.04.
   * [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu) if you have Ubuntu 14.04.
 * [Dataspeed DBW](https://bitbucket.org/DataspeedInc/dbw_mkz_ros)
+  
   * Use this option to install the SDK on a workstation that already has ROS installed: [One Line SDK Install (binary)](https://bitbucket.org/DataspeedInc/dbw_mkz_ros/src/81e63fcc335d7b64139d7482017d6a97b405e250/ROS_SETUP.md?fileviewer=file-view-default)
 * Download the [Udacity Simulator](https://github.com/udacity/CarND-Capstone/releases).
 
